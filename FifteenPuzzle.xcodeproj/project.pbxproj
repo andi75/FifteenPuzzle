@@ -13,6 +13,9 @@
 		F760CA961B0252CC001F804A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F760CA951B0252CC001F804A /* Images.xcassets */; };
 		F760CA991B0252CC001F804A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F760CA971B0252CC001F804A /* LaunchScreen.xib */; };
 		F760CAA51B0252CD001F804A /* FifteenPuzzleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F760CAA41B0252CD001F804A /* FifteenPuzzleTests.swift */; };
+		F7DF528F1B064CBD0030A1F7 /* PuzzleBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DF528E1B064CBD0030A1F7 /* PuzzleBoard.swift */; };
+		F7DF52911B065E940030A1F7 /* PuzzleTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DF52901B065E940030A1F7 /* PuzzleTile.swift */; };
+		F7DF52931B06A2210030A1F7 /* PuzzleTileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DF52921B06A2210030A1F7 /* PuzzleTileButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 		F760CA9E1B0252CD001F804A /* FifteenPuzzleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FifteenPuzzleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F760CAA31B0252CD001F804A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F760CAA41B0252CD001F804A /* FifteenPuzzleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FifteenPuzzleTests.swift; sourceTree = "<group>"; };
+		F7DF528E1B064CBD0030A1F7 /* PuzzleBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleBoard.swift; sourceTree = "<group>"; };
+		F7DF52901B065E940030A1F7 /* PuzzleTile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleTile.swift; sourceTree = "<group>"; };
+		F7DF52921B06A2210030A1F7 /* PuzzleTileButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PuzzleTileButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +65,9 @@
 		F760CA801B0252CC001F804A = {
 			isa = PBXGroup;
 			children = (
+				F7DF528E1B064CBD0030A1F7 /* PuzzleBoard.swift */,
+				F7DF52901B065E940030A1F7 /* PuzzleTile.swift */,
+				F7DF52921B06A2210030A1F7 /* PuzzleTileButton.swift */,
 				F760CA8B1B0252CC001F804A /* FifteenPuzzle */,
 				F760CAA11B0252CD001F804A /* FifteenPuzzleTests */,
 				F760CA8A1B0252CC001F804A /* Products */,
@@ -77,11 +86,8 @@
 		F760CA8B1B0252CC001F804A /* FifteenPuzzle */ = {
 			isa = PBXGroup;
 			children = (
-				F760CA8E1B0252CC001F804A /* AppDelegate.swift */,
 				F760CA901B0252CC001F804A /* ViewController.swift */,
 				F760CA921B0252CC001F804A /* Main.storyboard */,
-				F760CA951B0252CC001F804A /* Images.xcassets */,
-				F760CA971B0252CC001F804A /* LaunchScreen.xib */,
 				F760CA8C1B0252CC001F804A /* Supporting Files */,
 			);
 			path = FifteenPuzzle;
@@ -90,6 +96,9 @@
 		F760CA8C1B0252CC001F804A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F760CA971B0252CC001F804A /* LaunchScreen.xib */,
+				F760CA8E1B0252CC001F804A /* AppDelegate.swift */,
+				F760CA951B0252CC001F804A /* Images.xcassets */,
 				F760CA8D1B0252CC001F804A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -212,8 +221,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7DF528F1B064CBD0030A1F7 /* PuzzleBoard.swift in Sources */,
 				F760CA911B0252CC001F804A /* ViewController.swift in Sources */,
 				F760CA8F1B0252CC001F804A /* AppDelegate.swift in Sources */,
+				F7DF52911B065E940030A1F7 /* PuzzleTile.swift in Sources */,
+				F7DF52931B06A2210030A1F7 /* PuzzleTileButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +423,7 @@
 				F760CAAA1B0252CD001F804A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F760CAAB1B0252CD001F804A /* Build configuration list for PBXNativeTarget "FifteenPuzzleTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +432,7 @@
 				F760CAAD1B0252CD001F804A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
