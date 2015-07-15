@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var tileView: UIView!
     var board = PuzzleBoard(rows: 4, columns: 4)
@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     
     var tileImageViews = [UIImageView]()
     
+    var imagePicker = UIImagePickerController()
+    var image = UIImage(named: "kitty_square.jpg")!
+
     func tileRect(position: TilePosition) -> CGRect
     {
         let padding = round(Double(tileView.bounds.width) * 0.006)
@@ -83,20 +86,24 @@ class ViewController: UIViewController {
         tileImageViews = [UIImageView]()
         
         // note: tile index starts at 1
-        let image = UIImage(named: "kitty_square.jpg")!
         
-        let width = image.size.width
-        let height = image.size.height
+        let size = min(image.size.width, image.size.height)
+        let x_offset = (image.size.width - size) / 2
+        let y_offset = (image.size.height - size) / 2
         
-        let tiles:CGFloat = 4.0
+        let tiles = 4
         
-        let tilewidth = width / tiles
-        let tileheight = height / tiles
+        let tilewidth = size / CGFloat(tiles)
+        let tileheight = size / CGFloat(tiles)
         
-        for var y: CGFloat = 0; y < height; y += tileheight
+        var y = y_offset
+        
+        for var ty = 0; ty < tiles; ty++
         {
-            for var x: CGFloat = 0; x < width; x += tilewidth
+            var x = x_offset
+            for var tx = 0; tx < tiles; tx++
             {
+                
                 let dx : CGFloat = 2.0, dy : CGFloat = 2.0
                 
                 let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
@@ -106,7 +113,10 @@ class ViewController: UIViewController {
                 tileView.layer.cornerRadius = tilewidth / 8.0
 //                tileView.clipsToBounds = true
                 self.tileImageViews.append(tileView)
+
+                x += tilewidth
             }
+            y += tileheight
         }
     }
     
@@ -222,7 +232,37 @@ class ViewController: UIViewController {
         sender.sizeToFit()
         updateButtons()
     }
+    @IBAction func resetTiles(sender: UIButton) {
+        board.resetBoard()
+        updateButtons()
+    }
     
+    @IBAction func changeImage(sender: AnyObject) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum){
+//            println("picking image")
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum;
+//            imagePicker.allowsEditing = false
+            
+            self.presentViewController(imagePicker, animated: true, completion: nil)
+        }
+     
+    }
+
+    func imagePickerController(picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [NSObject : AnyObject])
+    {
+//        println("an image was picked")
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.image = pickedImage
+//            println("and it's valid")
+            redoTiles()
+        }
+        dismissViewControllerAnimated(true, completion: nil)
+
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

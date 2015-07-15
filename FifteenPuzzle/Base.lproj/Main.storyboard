@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NcT-pE-Abb" userLabel="Tile Button View">
-                                <rect key="frame" x="44" y="44" width="512" height="512"/>
+                                <rect key="frame" x="65" y="44" width="470" height="470"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <constraints>
@@ -39,7 +39,7 @@
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o15-4Y-hSs">
-                                <rect key="frame" x="44" y="564" width="48" height="30"/>
+                                <rect key="frame" x="65" y="522" width="48" height="30"/>
                                 <state key="normal" title="Shuffle">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -60,7 +60,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNS-vf-caa">
-                                <rect key="frame" x="457" y="564" width="99" height="30"/>
+                                <rect key="frame" x="436" y="522" width="99" height="30"/>
                                 <state key="normal" title="Hide Numbers">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -80,17 +80,39 @@
                                     <action selector="showHideNumbers:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4Dx-jA-waa"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vNF-y8-Hvd">
+                                <rect key="frame" x="435" y="560" width="100" height="30"/>
+                                <state key="normal" title="Change Image">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeImage:" destination="BYZ-38-t0r" eventType="touchUpInside" id="82y-tA-YDu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="byw-Vl-IYo">
+                                <rect key="frame" x="65" y="560" width="40" height="30"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resetTiles:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GzZ-k8-lBu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="byw-Vl-IYo" firstAttribute="leading" secondItem="o15-4Y-hSs" secondAttribute="leading" id="2R2-dY-Ad4"/>
                             <constraint firstItem="cNS-vf-caa" firstAttribute="trailing" secondItem="NcT-pE-Abb" secondAttribute="trailing" id="3kF-S5-WZq"/>
+                            <constraint firstItem="byw-Vl-IYo" firstAttribute="top" secondItem="o15-4Y-hSs" secondAttribute="bottom" constant="8" id="Dxg-GQ-bR2"/>
                             <constraint firstItem="o15-4Y-hSs" firstAttribute="top" secondItem="NcT-pE-Abb" secondAttribute="bottom" constant="8" id="MUn-a5-Aj3"/>
                             <constraint firstItem="NcT-pE-Abb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="24" id="NbF-Y7-ef7"/>
                             <constraint firstItem="NcT-pE-Abb" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="24" id="PN2-SZ-6nb"/>
                             <constraint firstItem="o15-4Y-hSs" firstAttribute="leading" secondItem="NcT-pE-Abb" secondAttribute="leading" id="WRF-Va-rur"/>
                             <constraint firstAttribute="centerX" secondItem="NcT-pE-Abb" secondAttribute="centerX" id="ZJ2-Dd-OPU"/>
+                            <constraint firstItem="cNS-vf-caa" firstAttribute="trailing" secondItem="vNF-y8-Hvd" secondAttribute="trailing" id="b5L-5H-Je1"/>
+                            <constraint firstItem="vNF-y8-Hvd" firstAttribute="top" secondItem="cNS-vf-caa" secondAttribute="bottom" constant="8" id="dGG-Jt-Stl"/>
                             <constraint firstItem="cNS-vf-caa" firstAttribute="baseline" secondItem="o15-4Y-hSs" secondAttribute="baseline" id="iwz-Uj-rJ8"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="o15-4Y-hSs" secondAttribute="bottom" constant="4" id="oam-g9-Ppj"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="o15-4Y-hSs" secondAttribute="bottom" constant="48" id="oam-g9-Ppj"/>
                             <constraint firstAttribute="centerY" secondItem="NcT-pE-Abb" secondAttribute="centerY" priority="250" id="vB7-eF-TxR"/>
                         </constraints>
                     </view>

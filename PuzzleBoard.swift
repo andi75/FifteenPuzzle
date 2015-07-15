@@ -31,6 +31,16 @@ class PuzzleBoard {
         }
     }
     
+    func resetBoard()
+    {
+        for i in 0..<(rows * columns - 1)
+        {
+            let pos = TilePosition(row: i / columns + 1, column: (i % columns) + 1)
+            tiles[i].position = pos
+        }
+        emptySquare = TilePosition(row: rows, column: columns)
+    }
+    
     func isInRowToEmptySquare(position: TilePosition) -> Bool
     {
         return position.row == emptySquare.row || position.column == emptySquare.column
