@@ -13,12 +13,15 @@ class ViewController: UIViewController {
     @IBOutlet weak var tileView: UIView!
     var board = PuzzleBoard(rows: 4, columns: 4)
     
-    let padding = 10.0
-    
     var buttons = [PuzzleTileButton]()
+    var showNumbers = true
+    
+    var tileImageViews = [UIImageView]()
     
     func tileRect(position: TilePosition) -> CGRect
     {
+        let padding = round(Double(tileView.bounds.width) * 0.006)
+
         let totalColumnPadding = Double(board.columns + 1) * padding
         let totalRowPadding = Double(board.rows + 1) * padding
         
@@ -32,33 +35,117 @@ class ViewController: UIViewController {
         return CGRectMake( CGFloat(x), CGFloat(y), CGFloat(sx), CGFloat(sy))
     }
     
+    func redoTiles()
+    {
+        self.createTileImages()
+        self.createButtons()
+    }
+    
+    func orientationChanged(notification: NSNotification)
+    {
+        redoTiles()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        /* Listen for the notification */
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:",
+        name: UIDeviceOrientationDidChangeNotification, object: nil)
+            
+        redoTiles()
+    }
+    
+    override func viewDidDisappear(animated: Bool) { super.viewDidDisappear(animated)
+        /* Stop listening for the notification */ NSNotificationCenter.defaultCenter().removeObserver(self,
+        name: UIDeviceOrientationDidChangeNotification,
+        object: nil)
+    }
+    
+    
     func updateButtons()
     {
         for button in buttons
         {
             button.frame = tileRect(button.tile.position)
+            if(showNumbers)
+            {
+                button.setTitle("\(button.tile.index)", forState: UIControlState.Normal)
+            }
+            else
+            {
+                button.setTitle("", forState: UIControlState.Normal)
+            }
         }
+    }
+    
+    func createTileImages()
+    {
+        tileImageViews = [UIImageView]()
+        
+        // note: tile index starts at 1
+        let image = UIImage(named: "kitty_square.jpg")!
+        
+        let width = image.size.width
+        let height = image.size.height
+        
+        let tiles:CGFloat = 4.0
+        
+        let tilewidth = width / tiles
+        let tileheight = height / tiles
+        
+        for var y: CGFloat = 0; y < height; y += tileheight
+        {
+            for var x: CGFloat = 0; x < width; x += tilewidth
+            {
+                let dx : CGFloat = 2.0, dy : CGFloat = 2.0
+                
+                let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
+                let img = CGImageCreateWithImageInRect(image.CGImage, rect)
+                let tile = UIImage(CGImage:img)
+                let tileView = UIImageView(image: tile)
+                tileView.layer.cornerRadius = tilewidth / 8.0
+//                tileView.clipsToBounds = true
+                self.tileImageViews.append(tileView)
+            }
+        }
+    }
+    
+    func createButtons()
+    {
+        // remove old buttons from view
+        for button in buttons
+        {
+            button.removeFromSuperview()
+        }
+        buttons = []
+        // hopefully all buttons will be cleaned up by the ARC now. TODO: check if that's the case!
+        
+        for tile in board.tiles
+        {
+            var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
+            buttons.append(ptb)
+            
+            ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
+            
+            ptb.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            let tiv = tileImageViews[tile.index - 1]
+            tiv.frame = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
+            tiv.bounds = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
+            tiv.contentMode = UIViewContentMode.ScaleAspectFit
+            ptb.addSubview(tiv)
+            tileView.addSubview(ptb)
+        }
+
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        tileView.backgroundColor = UIColor.blueColor()
-        
-        for tile in board.tiles
-        {
-            let col = tile.position.column
-            let row = tile.position.row
-            var view = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
-            buttons.append(view)
-            
-            view.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
-            
-            view.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-            
-            tileView.addSubview(view)
-        }
+
     }
+    
+
     
     func buttonAt(position: TilePosition) -> PuzzleTileButton?
     {
@@ -120,6 +207,20 @@ class ViewController: UIViewController {
             }
             delay += speed
         }
+    }
+    
+    @IBAction func showHideNumbers(sender: UIButton) {
+        showNumbers = !showNumbers
+        if(showNumbers)
+        {
+            sender.setTitle("Hide Numbers", forState: UIControlState.Normal)
+        }
+        else
+        {
+            sender.setTitle("Show Numbers", forState: UIControlState.Normal)
+        }
+        sender.sizeToFit()
+        updateButtons()
     }
     
     override func didReceiveMemoryWarning() {

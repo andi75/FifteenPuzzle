@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,21 +18,81 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NcT-pE-Abb">
-                                <rect key="frame" x="80" y="80" width="440" height="440"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NcT-pE-Abb" userLabel="Tile Button View">
+                                <rect key="frame" x="44" y="44" width="512" height="512"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <accessibility key="accessibilityConfiguration" label=""/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="NcT-pE-Abb" secondAttribute="height" multiplier="1:1" id="t4f-ki-sRh"/>
+                                </constraints>
+                                <variation key="heightClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="144" y="44" width="312" height="312"/>
+                                </variation>
+                                <variation key="heightClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="40" y="140" width="520" height="520"/>
+                                </variation>
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="52" y="152" width="296" height="296"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="44" y="44" width="712" height="712"/>
+                                </variation>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o15-4Y-hSs">
-                                <rect key="frame" x="80" y="528" width="48" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o15-4Y-hSs">
+                                <rect key="frame" x="44" y="564" width="48" height="30"/>
                                 <state key="normal" title="Shuffle">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="heightClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="144" y="364" width="48" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="40" y="668" width="48" height="30"/>
+                                </variation>
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="52" y="456" width="48" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="44" y="762" width="48" height="30"/>
+                                </variation>
                                 <connections>
                                     <action selector="shuffle" destination="BYZ-38-t0r" eventType="touchUpInside" id="ueX-F8-qUs"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNS-vf-caa">
+                                <rect key="frame" x="457" y="564" width="99" height="30"/>
+                                <state key="normal" title="Hide Numbers">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="357" y="364" width="99" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="461" y="668" width="99" height="30"/>
+                                </variation>
+                                <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="249" y="456" width="99" height="30"/>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="657" y="762" width="99" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="showHideNumbers:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4Dx-jA-waa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cNS-vf-caa" firstAttribute="trailing" secondItem="NcT-pE-Abb" secondAttribute="trailing" id="3kF-S5-WZq"/>
+                            <constraint firstItem="o15-4Y-hSs" firstAttribute="top" secondItem="NcT-pE-Abb" secondAttribute="bottom" constant="8" id="MUn-a5-Aj3"/>
+                            <constraint firstItem="NcT-pE-Abb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="24" id="NbF-Y7-ef7"/>
+                            <constraint firstItem="NcT-pE-Abb" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="24" id="PN2-SZ-6nb"/>
+                            <constraint firstItem="o15-4Y-hSs" firstAttribute="leading" secondItem="NcT-pE-Abb" secondAttribute="leading" id="WRF-Va-rur"/>
+                            <constraint firstAttribute="centerX" secondItem="NcT-pE-Abb" secondAttribute="centerX" id="ZJ2-Dd-OPU"/>
+                            <constraint firstItem="cNS-vf-caa" firstAttribute="baseline" secondItem="o15-4Y-hSs" secondAttribute="baseline" id="iwz-Uj-rJ8"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="o15-4Y-hSs" secondAttribute="bottom" constant="4" id="oam-g9-Ppj"/>
+                            <constraint firstAttribute="centerY" secondItem="NcT-pE-Abb" secondAttribute="centerY" priority="250" id="vB7-eF-TxR"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="tileView" destination="NcT-pE-Abb" id="sYL-ji-4Hn"/>
@@ -38,6 +100,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-57" y="2"/>
         </scene>
     </scenes>
 </document>

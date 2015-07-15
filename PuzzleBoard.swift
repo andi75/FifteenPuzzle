@@ -98,7 +98,7 @@ class PuzzleBoard {
                 let tmptile = self.tileAt( TilePosition(row: row , column: col) )
         
                 assert(tmptile != nil, "tile not found")
-                println("moving tile at \(row), \(col)")
+//                println("moving tile at \(row), \(col)")
                 movements.append(TileMovement(start: tmptile!.position, end: esq))
             } while row != endrow || col != endcol
         }
