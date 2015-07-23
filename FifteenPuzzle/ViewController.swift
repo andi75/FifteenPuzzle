@@ -21,32 +21,50 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var imagePicker = UIImagePickerController()
     var image = UIImage(named: "kitty_square.jpg")!
 
-    func tileRect(position: TilePosition) -> CGRect
+    func padding() -> Double
     {
-        let padding = round(Double(tileView.bounds.width) * 0.006)
-
-        let totalColumnPadding = Double(board.columns + 1) * padding
-        let totalRowPadding = Double(board.rows + 1) * padding
+        return round(Double(tileView.bounds.width) * 0.006)
+    }
+    
+    func tileBounds() -> (Double, Double)
+    {
+        let totalColumnPadding = Double(board.columns + 1) * padding()
+        let totalRowPadding = Double(board.rows + 1) * padding()
         
         let sx = ( Double(tileView.bounds.width) - totalColumnPadding ) / Double(board.rows)
         let sy = ( Double(tileView.bounds.height) - totalRowPadding) / (Double)(board.columns)
+       
+        return (sx, sy)
+    }
+    
+    func tileRect(position: TilePosition) -> CGRect
+    {
+        let (sx, sy) = tileBounds()
         
-        
-        let x = (Double)(position.column) * padding + (Double)(position.column - 1) * sx
-        let y = (Double)(position.row) * padding + (Double)(position.row - 1) * sy
+        let x = (Double)(position.column) * padding() + (Double)(position.column - 1) * sx
+        let y = (Double)(position.row) * padding() + (Double)(position.row - 1) * sy
         
         return CGRectMake( CGFloat(x), CGFloat(y), CGFloat(sx), CGFloat(sy))
     }
     
     func redoTiles()
     {
+        println("Block Executed On \(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))");
+        println("Main queue is \(dispatch_queue_get_label(dispatch_get_main_queue()))");
+        
         self.createTileImages()
         self.createButtons()
+        
+        println("done with redoing tiles")
     }
     
     func orientationChanged(notification: NSNotification)
     {
+        // updateButtons()
         redoTiles()
+        // so, it looks like this is happening on the main thread
+//        println("Block Executed On \(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))");
+//        println("Main queue is \(dispatch_queue_get_label(dispatch_get_main_queue()))");
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -54,7 +72,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         /* Listen for the notification */
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "orientationChanged:",
         name: UIDeviceOrientationDidChangeNotification, object: nil)
-            
         redoTiles()
     }
     
@@ -79,6 +96,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 button.setTitle("", forState: UIControlState.Normal)
             }
         }
+//        let (sx, sy) = tileBounds()
+//        for tiv in tileImageViews
+//        {
+//            tiv.bounds = CGRectMake(0.0, 0.0, CGFloat(sx), CGFloat(sy))
+//            let oldframe = tiv.frame
+//            tiv.frame = CGRectMake(oldframe.origin.x, oldframe.origin.y, CGFloat(sx), CGFloat(sy))
+//        }
     }
     
     func createTileImages()
@@ -103,18 +127,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             var x = x_offset
             for var tx = 0; tx < tiles; tx++
             {
-                
-                let dx : CGFloat = 2.0, dy : CGFloat = 2.0
-                
-                let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
-                let img = CGImageCreateWithImageInRect(image.CGImage, rect)
-                let tile = UIImage(CGImage:img)
-                let tileView = UIImageView(image: tile)
-                tileView.layer.cornerRadius = tilewidth / 8.0
-//                tileView.clipsToBounds = true
-                self.tileImageViews.append(tileView)
-
-                x += tilewidth
+                autoreleasepool {
+                    let dx : CGFloat = 2.0, dy : CGFloat = 2.0
+                    
+                    let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
+                    let img = CGImageCreateWithImageInRect(image.CGImage, rect)
+                    let tileView = UIImageView(image: UIImage(CGImage:img))
+                    tileView.layer.cornerRadius = tilewidth / 8.0
+                    //                tileView.clipsToBounds = true
+                    self.tileImageViews.append(tileView)
+                    
+                    x += tilewidth
+                }
             }
             y += tileheight
         }
@@ -132,21 +156,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         for tile in board.tiles
         {
-            var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
-            buttons.append(ptb)
-            
-            ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
-            
-            ptb.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-            let tiv = tileImageViews[tile.index - 1]
-            tiv.frame = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
-            tiv.bounds = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
-            tiv.contentMode = UIViewContentMode.ScaleAspectFit
-            ptb.addSubview(tiv)
-            tileView.addSubview(ptb)
+            autoreleasepool {
+                var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
+                buttons.append(ptb)
+                
+                ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
+                
+                ptb.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+                let tiv = tileImageViews[tile.index - 1]
+                tiv.frame = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
+                tiv.bounds = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
+                tiv.contentMode = UIViewContentMode.ScaleAspectFit
+                ptb.addSubview(tiv)
+                tileView.addSubview(ptb)
+            }
         }
-
-        
     }
     
     override func viewDidLoad() {
@@ -154,8 +178,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // Do any additional setup after loading the view, typically from a nib.
 
     }
-    
-
     
     func buttonAt(position: TilePosition) -> PuzzleTileButton?
     {
@@ -253,11 +275,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [NSObject : AnyObject])
     {
-//        println("an image was picked")
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = pickedImage
-//            println("and it's valid")
-            redoTiles()
+            // no need to redo Tiles since that will be done in viewDidAppear after the view Controller is gone
+            // redoTiles()
         }
         dismissViewControllerAnimated(true, completion: nil)
 
