@@ -26,8 +26,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var tileImageViews = [UIImageView]()
     
     var imagePicker = UIImagePickerController()
-    // var image = UIImage(named: "kitty_square.jpg")!
-    var image = UIImage(named: "Martinsloch.jpg")!
+     var image = UIImage(named: "kitty_square.jpg")!
+//    var image = UIImage(named: "Martinsloch.jpg")!
+    
+    var isShuffled = false
 
     func padding() -> Double
     {
@@ -241,6 +243,24 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         //        println("touched: \(tile.index)")
         moveTile(tile, speed: 0.5, delay: 0.0)
+        
+        if(self.isShuffled && board.isSolved())
+        {
+            // TODO: big fat alert
+//            println("you win!")
+            var controller: UIAlertController? = UIAlertController(title: "Congratulations!",
+                message: "You win!",
+                preferredStyle: .Alert)
+            
+            //            let action = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: {(paramAction:UIAlertAction!) in println("The Done button was tapped")
+            //                    })
+            let action = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: nil)
+            controller?.addAction(action)
+            
+            self.presentViewController(controller!, animated: true, completion: nil)
+            
+            self.isShuffled = false
+        }
     }
     
     func moveTile(tile: PuzzleTile, speed: Double, delay: Double)
@@ -283,6 +303,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             delay += speed
         }
+        self.isShuffled = !board.isSolved()
     }
     
     @IBAction func showHideNumbers(sender: UIButton) {
@@ -300,6 +321,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     @IBAction func resetTiles(sender: UIButton) {
         board.resetBoard()
+        self.isShuffled = false
         updateButtons()
     }
     

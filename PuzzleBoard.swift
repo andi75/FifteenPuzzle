@@ -115,4 +115,17 @@ class PuzzleBoard {
         
         return movements
     }
+    
+    func isSolved() -> Bool
+    {
+        for i in 0..<(rows * columns - 1)
+        {
+            let pos = TilePosition(row: i / columns + 1, column: (i % columns) + 1)
+            if(tiles[i].position != pos)
+            {
+                return false
+            }
+        }
+        return true
+    }
 }
