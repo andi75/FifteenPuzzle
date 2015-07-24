@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1A0A2471B6143A1002DE014 /* Martinsloch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E1A0A2461B6143A1002DE014 /* Martinsloch.jpg */; };
 		F70BDA6A1B523FA500A6C8B5 /* kitty_square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F70BDA691B523FA500A6C8B5 /* kitty_square.jpg */; };
 		F760CA8F1B0252CC001F804A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F760CA8E1B0252CC001F804A /* AppDelegate.swift */; };
 		F760CA911B0252CC001F804A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F760CA901B0252CC001F804A /* ViewController.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E1A0A2461B6143A1002DE014 /* Martinsloch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Martinsloch.jpg; sourceTree = "<group>"; };
 		F70BDA691B523FA500A6C8B5 /* kitty_square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kitty_square.jpg; sourceTree = "<group>"; };
 		F760CA891B0252CC001F804A /* FifteenPuzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FifteenPuzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F760CA8D1B0252CC001F804A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		F760CA801B0252CC001F804A = {
 			isa = PBXGroup;
 			children = (
+				E1A0A2461B6143A1002DE014 /* Martinsloch.jpg */,
 				F70BDA691B523FA500A6C8B5 /* kitty_square.jpg */,
 				F7DF528E1B064CBD0030A1F7 /* PuzzleBoard.swift */,
 				F7DF52901B065E940030A1F7 /* PuzzleTile.swift */,
@@ -206,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F70BDA6A1B523FA500A6C8B5 /* kitty_square.jpg in Resources */,
+				E1A0A2471B6143A1002DE014 /* Martinsloch.jpg in Resources */,
 				F760CA941B0252CC001F804A /* Main.storyboard in Resources */,
 				F760CA991B0252CC001F804A /* LaunchScreen.xib in Resources */,
 				F760CA961B0252CC001F804A /* Images.xcassets in Resources */,

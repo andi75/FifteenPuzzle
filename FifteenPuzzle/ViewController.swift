@@ -19,7 +19,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     var tileImageViews = [UIImageView]()
     
     var imagePicker = UIImagePickerController()
-    var image = UIImage(named: "kitty_square.jpg")!
+    // var image = UIImage(named: "kitty_square.jpg")!
+    var image = UIImage(named: "Martinsloch.jpg")!
 
     func padding() -> Double
     {
@@ -107,13 +108,40 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func createTileImages()
     {
+        var scale: CGFloat = 1.0
+        // choose aspect
+        if(image.size.width < image.size.height)
+        {
+            scale = tileView.bounds.width / image.size.width
+        }
+        else
+        {
+            scale = tileView.bounds.height / image.size.height
+        }
+        println("would be scaling image down with a factor of \(scale)")
+        
+//        let scaledImage = UIImage(CGImage: image.CGImage!, scale: 1 / scale, orientation: UIImageOrientation.Up)!
+//        let scaledImage = UIImage(CGImage: image.CGImage!, scale: 1, orientation: UIImageOrientation.Up)!
+
+        let matScale = CGAffineTransformMakeScale(scale, scale)
+        
+        let ciimage = CIImage(CGImage: image.CGImage!)
+        assert(ciimage != nil)
+        
+        let result: CIImage = ciimage!.imageByApplyingTransform(matScale)!
+    
+        let context = CIContext(options:nil)
+        let cgImage = context.createCGImage(result, fromRect: result.extent())
+        
+        let scaledImage = UIImage(CGImage: cgImage)!
+        
         tileImageViews = [UIImageView]()
         
         // note: tile index starts at 1
         
-        let size = min(image.size.width, image.size.height)
-        let x_offset = (image.size.width - size) / 2
-        let y_offset = (image.size.height - size) / 2
+        let size = min(scaledImage.size.width, scaledImage.size.height)
+        let x_offset = (scaledImage.size.width - size) / 2
+        let y_offset = (scaledImage.size.height - size) / 2
         
         let tiles = 4
         
@@ -131,7 +159,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     let dx : CGFloat = 2.0, dy : CGFloat = 2.0
                     
                     let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
-                    let img = CGImageCreateWithImageInRect(image.CGImage, rect)
+                    let img = CGImageCreateWithImageInRect(scaledImage.CGImage, rect)
                     let tileView = UIImageView(image: UIImage(CGImage:img))
                     tileView.layer.cornerRadius = tilewidth / 8.0
                     //                tileView.clipsToBounds = true
@@ -160,7 +188,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
                 buttons.append(ptb)
                 
-                ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
+                // ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
                 
                 ptb.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
                 let tiv = tileImageViews[tile.index - 1]
