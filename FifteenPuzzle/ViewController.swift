@@ -6,6 +6,13 @@
 //  Copyright (c) 2015 Andreas Umbach. All rights reserved.
 //
 
+// TODO: handle swipes correctly
+// TODO: Fix orientation issues from camera images (upside down etc.)
+// TODO: Fix that some images still have colored borders
+// TODO: Add decent splash screen
+// TODO: Different layout in landscape on iPhone (using autolayout)
+// TODO: Different layout in landscape on iPad (some tricks necessary?)
+
 import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -25,6 +32,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func padding() -> Double
     {
         return round(Double(tileView.bounds.width) * 0.006)
+    }
+    
+    func isRetina() -> Bool
+    {
+        return UIScreen.mainScreen().scale > 1.0
     }
     
     func tileBounds() -> (Double, Double)
@@ -50,13 +62,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func redoTiles()
     {
-        println("Block Executed On \(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))");
-        println("Main queue is \(dispatch_queue_get_label(dispatch_get_main_queue()))");
+//        println("Block Executed On \(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL))");
+//        println("Main queue is \(dispatch_queue_get_label(dispatch_get_main_queue()))");
         
         self.createTileImages()
         self.createButtons()
         
-        println("done with redoing tiles")
+//        println("done with redoing tiles")
     }
     
     func orientationChanged(notification: NSNotification)
@@ -118,11 +130,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         {
             scale = tileView.bounds.height / image.size.height
         }
-        println("would be scaling image down with a factor of \(scale)")
+//        println("would be scaling image down with a factor of \(scale)")
         
-//        let scaledImage = UIImage(CGImage: image.CGImage!, scale: 1 / scale, orientation: UIImageOrientation.Up)!
-//        let scaledImage = UIImage(CGImage: image.CGImage!, scale: 1, orientation: UIImageOrientation.Up)!
-
+        scale *= UIScreen.mainScreen().scale
+        
+//        println("actually scaling with \(scale)")
+        
         let matScale = CGAffineTransformMakeScale(scale, scale)
         
         let ciimage = CIImage(CGImage: image.CGImage!)
@@ -148,6 +161,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let tilewidth = size / CGFloat(tiles)
         let tileheight = size / CGFloat(tiles)
         
+//        println("tile size: \(tilewidth), \(tileheight)")
+        
         var y = y_offset
         
         for var ty = 0; ty < tiles; ty++
@@ -155,18 +170,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             var x = x_offset
             for var tx = 0; tx < tiles; tx++
             {
-                autoreleasepool {
-                    let dx : CGFloat = 2.0, dy : CGFloat = 2.0
-                    
-                    let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
-                    let img = CGImageCreateWithImageInRect(scaledImage.CGImage, rect)
-                    let tileView = UIImageView(image: UIImage(CGImage:img))
-                    tileView.layer.cornerRadius = tilewidth / 8.0
-                    //                tileView.clipsToBounds = true
-                    self.tileImageViews.append(tileView)
-                    
-                    x += tilewidth
-                }
+                //                autoreleasepool {
+                let dx : CGFloat = 2.0, dy : CGFloat = 2.0
+                
+                let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
+                let img = CGImageCreateWithImageInRect(scaledImage.CGImage, rect)
+                let tileView = UIImageView(image: UIImage(CGImage:img))
+                tileView.layer.cornerRadius = tilewidth / 8.0
+                //                tileView.clipsToBounds = true
+                self.tileImageViews.append(tileView)
+                
+                x += tilewidth
+                //                }
             }
             y += tileheight
         }
@@ -184,21 +199,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         for tile in board.tiles
         {
-            autoreleasepool {
-                var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
-                buttons.append(ptb)
-                
-                // ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
-                
-                ptb.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
-                let tiv = tileImageViews[tile.index - 1]
-                tiv.frame = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
-                tiv.bounds = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
-                tiv.contentMode = UIViewContentMode.ScaleAspectFit
-                ptb.addSubview(tiv)
-                tileView.addSubview(ptb)
-            }
+            //            autoreleasepool {
+            var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
+            buttons.append(ptb)
+            
+             ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
+            
+            ptb.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            let tiv = tileImageViews[tile.index - 1]
+            tiv.frame = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
+            tiv.bounds = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
+            tiv.contentMode = UIViewContentMode.ScaleAspectFit
+            ptb.addSubview(tiv)
+            tileView.addSubview(ptb)
+            //            }
         }
+        updateButtons()
     }
     
     override func viewDidLoad() {
