@@ -7,7 +7,7 @@
 //
 
 // TODO: Fix that some images still have colored borders
-// TODO: Add decent splash screen
+// TODO: Add decent splash screen & app icon
 // TODO: Different layout in landscape on iPhone (using autolayout)
 // TODO: Different layout in landscape on iPad (some tricks necessary?)
 
@@ -28,6 +28,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //    var image = UIImage(named: "Martinsloch.jpg")!
     
     var isShuffled = false
+    
+    var panTriggeredMove = false
 
     func padding() -> Double
     {
@@ -250,23 +252,30 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         updateButtons()
     }
     
+    func isMoveBigEnough(gesture: UIPanGestureRecognizer) -> Bool
+    {
+        let p = gesture.translationInView(view)
+        let (tx, ty) = tileBounds()
+        return (abs(Double(p.x)) > tx / 2) || (abs(Double(p.y)) > ty / 2)
+    }
+    
     func tileIsPanned(gesture: UIPanGestureRecognizer)
     {
         switch(gesture.state)
         {
+        case .Began:
+            self.panTriggeredMove = false
+        case .Changed: fallthrough
         case .Ended:
-            let p = gesture.translationInView(view)
-            let (tx, ty) = tileBounds()
-            if((abs(Double(p.x)) > tx / 2) || (abs(Double(p.y)) > ty / 2))
+            if(!self.panTriggeredMove && self.isMoveBigEnough(gesture))
             {
                 // Horribly untypesave
                 self.tileIsPressed(gesture.view! as! PuzzleTileButton)
-                println("pan detected")
+                self.panTriggeredMove = true
             }
         default:
             break
         }
-        
     }
     
     func buttonAt(position: TilePosition) -> PuzzleTileButton?
