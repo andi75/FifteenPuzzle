@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Andreas Umbach. All rights reserved.
 //
 
-// TODO: handle swipes correctly
 // TODO: Fix that some images still have colored borders
 // TODO: Add decent splash screen
 // TODO: Different layout in landscape on iPhone (using autolayout)
@@ -239,6 +238,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
              ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
             
             ptb.addTarget(self, action: "tileIsPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+            ptb.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: "tileIsPanned:"))
+            
             let tiv = tileImageViews[tile.index - 1]
             tiv.frame = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
             tiv.bounds = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
@@ -247,6 +248,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             tileView.addSubview(ptb)
         }
         updateButtons()
+    }
+    
+    func tileIsPanned(gesture: UIPanGestureRecognizer)
+    {
+        switch(gesture.state)
+        {
+        case .Ended:
+            let p = gesture.translationInView(view)
+            let (tx, ty) = tileBounds()
+            if((abs(Double(p.x)) > tx / 2) || (abs(Double(p.y)) > ty / 2))
+            {
+                // Horribly untypesave
+                self.tileIsPressed(gesture.view! as! PuzzleTileButton)
+                println("pan detected")
+            }
+        default:
+            break
+        }
+        
     }
     
     func buttonAt(position: TilePosition) -> PuzzleTileButton?
