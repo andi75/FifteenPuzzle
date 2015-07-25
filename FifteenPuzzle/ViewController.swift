@@ -7,7 +7,6 @@
 //
 
 // TODO: handle swipes correctly
-// TODO: Fix orientation issues from camera images (upside down etc.)
 // TODO: Fix that some images still have colored borders
 // TODO: Add decent splash screen
 // TODO: Different layout in landscape on iPhone (using autolayout)
@@ -111,13 +110,46 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 button.setTitle("", forState: UIControlState.Normal)
             }
         }
-//        let (sx, sy) = tileBounds()
-//        for tiv in tileImageViews
-//        {
-//            tiv.bounds = CGRectMake(0.0, 0.0, CGFloat(sx), CGFloat(sy))
-//            let oldframe = tiv.frame
-//            tiv.frame = CGRectMake(oldframe.origin.x, oldframe.origin.y, CGFloat(sx), CGFloat(sy))
-//        }
+    }
+    
+    func createOrientationTransform(image: UIImage) -> CGAffineTransform
+    {
+        var transform = CGAffineTransformIdentity;
+        
+        switch (image.imageOrientation) {
+        case UIImageOrientation.Down, UIImageOrientation.DownMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.width, image.size.height)
+            transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
+            break;
+            
+        case UIImageOrientation.Left, UIImageOrientation.LeftMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.width, 0)
+            transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
+            break;
+            
+        case UIImageOrientation.Right, UIImageOrientation.RightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, image.size.height)
+            transform = CGAffineTransformRotate(transform, CGFloat(-M_PI_2))
+            break;
+        case UIImageOrientation.Up, UIImageOrientation.UpMirrored:
+            break;
+        }
+        
+        switch (image.imageOrientation) {
+        case UIImageOrientation.UpMirrored, UIImageOrientation.DownMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.width, 0)
+            transform = CGAffineTransformScale(transform, -1, 1)
+            break;
+            
+        case UIImageOrientation.LeftMirrored, UIImageOrientation.RightMirrored:
+            transform = CGAffineTransformTranslate(transform, image.size.height, 0)
+            transform = CGAffineTransformScale(transform, -1, 1)
+            break;
+        case UIImageOrientation.Up, UIImageOrientation.Down,
+        UIImageOrientation.Left, UIImageOrientation.Right:
+            break;
+        }
+        return transform;
     }
     
     func createTileImages()
@@ -138,12 +170,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
 //        println("actually scaling with \(scale)")
         
-        let matScale = CGAffineTransformMakeScale(scale, scale)
+        // pictures from the camera might be rotated, so fix that rotation before we take them
+        // apart
+        var transform = createOrientationTransform(image)
+        transform = CGAffineTransformScale(transform, scale, scale)
         
         let ciimage = CIImage(CGImage: image.CGImage!)
         assert(ciimage != nil)
         
-        let result: CIImage = ciimage!.imageByApplyingTransform(matScale)!
+        let result: CIImage = ciimage!.imageByApplyingTransform(transform)!
     
         let context = CIContext(options:nil)
         let cgImage = context.createCGImage(result, fromRect: result.extent())
@@ -172,7 +207,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             var x = x_offset
             for var tx = 0; tx < tiles; tx++
             {
-                //                autoreleasepool {
                 let dx : CGFloat = 2.0, dy : CGFloat = 2.0
                 
                 let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
@@ -183,7 +217,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 self.tileImageViews.append(tileView)
                 
                 x += tilewidth
-                //                }
             }
             y += tileheight
         }
@@ -197,11 +230,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             button.removeFromSuperview()
         }
         buttons = []
-        // hopefully all buttons will be cleaned up by the ARC now. TODO: check if that's the case!
         
         for tile in board.tiles
         {
-            //            autoreleasepool {
             var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
             buttons.append(ptb)
             
@@ -214,15 +245,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             tiv.contentMode = UIViewContentMode.ScaleAspectFit
             ptb.addSubview(tiv)
             tileView.addSubview(ptb)
-            //            }
         }
         updateButtons()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-
     }
     
     func buttonAt(position: TilePosition) -> PuzzleTileButton?
@@ -246,14 +270,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if(self.isShuffled && board.isSolved())
         {
-            // TODO: big fat alert
-//            println("you win!")
             var controller: UIAlertController? = UIAlertController(title: "Congratulations!",
                 message: "You win!",
                 preferredStyle: .Alert)
             
-            //            let action = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: {(paramAction:UIAlertAction!) in println("The Done button was tapped")
-            //                    })
             let action = UIAlertAction(title: "Done", style: UIAlertActionStyle.Default, handler: nil)
             controller?.addAction(action)
             
@@ -272,7 +292,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             UIView.animateWithDuration(speed, delay: delay, options: UIViewAnimationOptions.allZeros, animations: { button.frame = self.tileRect(movement.end); }, completion: nil)
             board.move(movement)
         }
-//         updateButtons()
     }
     
     @IBAction func shuffle()
@@ -345,6 +364,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             self.image = pickedImage
             // no need to redo Tiles since that will be done in viewDidAppear after the view Controller is gone
             // redoTiles()
+            
+//            let ioDict = [
+//                UIImageOrientation.Up: "Up",
+//                UIImageOrientation.UpMirrored: "UpMirrored",
+//                UIImageOrientation.Down: "Down",
+//                UIImageOrientation.DownMirrored: "DownMirrored",
+//                UIImageOrientation.Left: "Left",
+//                UIImageOrientation.LeftMirrored: "LeftMirrored",
+//                UIImageOrientation.Right: "Right",
+//                UIImageOrientation.RightMirrored: "RightMirrored"
+//            ]
+//            println("picked image orientation: \(ioDict[pickedImage.imageOrientation]!)")
         }
         dismissViewControllerAnimated(true, completion: nil)
 
