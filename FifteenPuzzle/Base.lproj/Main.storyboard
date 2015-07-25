@@ -105,8 +105,12 @@
                             <constraint firstItem="cNS-vf-caa" firstAttribute="trailing" secondItem="NcT-pE-Abb" secondAttribute="trailing" id="3kF-S5-WZq"/>
                             <constraint firstItem="byw-Vl-IYo" firstAttribute="top" secondItem="o15-4Y-hSs" secondAttribute="bottom" constant="8" id="Dxg-GQ-bR2"/>
                             <constraint firstItem="o15-4Y-hSs" firstAttribute="top" secondItem="NcT-pE-Abb" secondAttribute="bottom" constant="8" id="MUn-a5-Aj3"/>
-                            <constraint firstItem="NcT-pE-Abb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="24" id="NbF-Y7-ef7"/>
-                            <constraint firstItem="NcT-pE-Abb" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="24" id="PN2-SZ-6nb"/>
+                            <constraint firstItem="NcT-pE-Abb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="24" id="NbF-Y7-ef7">
+                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                            </constraint>
+                            <constraint firstItem="NcT-pE-Abb" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="24" id="PN2-SZ-6nb">
+                                <variation key="heightClass=compact-widthClass=regular" constant="2"/>
+                            </constraint>
                             <constraint firstItem="o15-4Y-hSs" firstAttribute="leading" secondItem="NcT-pE-Abb" secondAttribute="leading" id="WRF-Va-rur"/>
                             <constraint firstAttribute="centerX" secondItem="NcT-pE-Abb" secondAttribute="centerX" id="ZJ2-Dd-OPU"/>
                             <constraint firstItem="cNS-vf-caa" firstAttribute="trailing" secondItem="vNF-y8-Hvd" secondAttribute="trailing" id="b5L-5H-Je1"/>
