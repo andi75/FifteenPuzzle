@@ -14,6 +14,7 @@ import UIKit
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var tileView: UIView!
+    @IBOutlet weak var resetButton: UIButton!
     var board = PuzzleBoard(rows: 4, columns: 4)
     
     var buttons = [PuzzleTileButton]()
@@ -329,6 +330,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func shuffle()
     {
+        self.resetButton.enabled = false
+        
         // Generate a hundred moves, making the animation between moves faster and faster
         // restrictions: always alternate row/column moves
         
@@ -356,6 +359,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             delay += speed
         }
         self.isShuffled = !board.isSolved()
+        
+        dispatch_after(
+            dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue(),            {
+                self.resetButton.enabled = true
+            }
+        )
     }
     
     @IBAction func showHideNumbers(sender: UIButton) {

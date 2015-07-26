@@ -121,6 +121,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="resetButton" destination="byw-Vl-IYo" id="RNf-Et-Cwc"/>
                         <outlet property="tileView" destination="NcT-pE-Abb" id="sYL-ji-4Hn"/>
                     </connections>
                 </viewController>
