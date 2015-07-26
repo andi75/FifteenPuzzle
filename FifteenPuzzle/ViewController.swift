@@ -6,10 +6,8 @@
 //  Copyright (c) 2015 Andreas Umbach. All rights reserved.
 //
 
-// TODO: Fix that some images still have colored borders
-// TODO: Add decent splash screen & app icon
-// TODO: Different layout in landscape on iPhone (using autolayout)
-// TODO: Different layout in landscape on iPad (some tricks necessary?)
+// MAYBE: Different layout in landscape on iPhone (using autolayout)
+// MAYBE: Different layout in landscape on iPad (some tricks necessary?)
 
 import UIKit
 
@@ -196,8 +194,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         let tiles = 4
         
-        let tilewidth = size / CGFloat(tiles)
-        let tileheight = size / CGFloat(tiles)
+        let tilewidth = ceil(size / CGFloat(tiles))
+        let tileheight = ceil(size / CGFloat(tiles))
         
 //        println("tile size: \(tilewidth), \(tileheight)")
         
@@ -211,6 +209,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 let dx : CGFloat = 2.0, dy : CGFloat = 2.0
                 
                 let rect = CGRectInset(CGRectMake(x, y, tilewidth, tileheight), dx, dy)
+//                println("tile image size: \(rect.width), \(rect.height)")
+                
                 let img = CGImageCreateWithImageInRect(scaledImage.CGImage, rect)
                 let tileView = UIImageView(image: UIImage(CGImage:img))
                 tileView.layer.cornerRadius = tilewidth / 8.0
@@ -235,6 +235,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         for tile in board.tiles
         {
             var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
+            
+//            let rect = tileRect(tile.position)
+//            println("puzzle tile button size: \(rect.width), \(rect.height)")
+
             buttons.append(ptb)
             
              ptb.backgroundColor = UIColor(hue: CGFloat(random()) / CGFloat(RAND_MAX), saturation: 1, brightness: 1, alpha: 1)
@@ -244,8 +248,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             let tiv = tileImageViews[tile.index - 1]
             tiv.frame = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
-            tiv.bounds = CGRectMake(0, 0, ptb.bounds.width, ptb.bounds.height)
-            tiv.contentMode = UIViewContentMode.ScaleAspectFit
+            // this was causing the colored lines along the buttons
+            // tiv.contentMode = UIViewContentMode.ScaleAspectFit
             ptb.addSubview(tiv)
             tileView.addSubview(ptb)
         }
