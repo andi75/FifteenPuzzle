@@ -20,9 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E130049F1BF2A0BA00ABE967 /* FifteenPuzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = FifteenPuzzle.app; path = "/Users/andreas/Desktop/Desktop/aufraeumen/FifteenPuzzle/build/Debug-iphoneos/FifteenPuzzle.app"; sourceTree = "<absolute>"; };
 		E1A0A2461B6143A1002DE014 /* Martinsloch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Martinsloch.jpg; sourceTree = "<group>"; };
 		F70BDA691B523FA500A6C8B5 /* kitty_square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = kitty_square.jpg; sourceTree = "<group>"; };
-		F760CA891B0252CC001F804A /* FifteenPuzzle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FifteenPuzzle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F760CA8D1B0252CC001F804A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F760CA8E1B0252CC001F804A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F760CA901B0252CC001F804A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,16 +54,7 @@
 				F7DF52901B065E940030A1F7 /* PuzzleTile.swift */,
 				F7DF52921B06A2210030A1F7 /* PuzzleTileButton.swift */,
 				F760CA8B1B0252CC001F804A /* FifteenPuzzle */,
-				F760CA8A1B0252CC001F804A /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		F760CA8A1B0252CC001F804A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F760CA891B0252CC001F804A /* FifteenPuzzle.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		F760CA8B1B0252CC001F804A /* FifteenPuzzle */ = {
@@ -104,7 +95,7 @@
 			);
 			name = FifteenPuzzle;
 			productName = FifteenPuzzle;
-			productReference = F760CA891B0252CC001F804A /* FifteenPuzzle.app */;
+			productReference = E130049F1BF2A0BA00ABE967 /* FifteenPuzzle.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -115,7 +106,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Andreas Umbach";
 				TargetAttributes = {
 					F760CA881B0252CC001F804A = {
@@ -133,7 +124,7 @@
 				Base,
 			);
 			mainGroup = F760CA801B0252CC001F804A;
-			productRefGroup = F760CA8A1B0252CC001F804A /* Products */;
+			productRefGroup = F760CA801B0252CC001F804A;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -213,6 +204,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -228,7 +220,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -267,7 +259,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -283,6 +275,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FifteenPuzzle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.umbach.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -296,6 +289,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FifteenPuzzle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ch.umbach.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
