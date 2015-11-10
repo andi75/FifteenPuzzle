@@ -171,6 +171,8 @@
 		F760CA811B0252CC001F804A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Andreas Umbach";
 				TargetAttributes = {

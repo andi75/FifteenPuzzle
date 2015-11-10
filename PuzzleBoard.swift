@@ -99,7 +99,7 @@ class PuzzleBoard {
             var col = self.emptySquare.column
             let endrow = position.row
             let endcol = position.column
-            do
+            repeat
             {
                 let esq = TilePosition(row: row, column: col)
                 

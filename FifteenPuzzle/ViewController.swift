@@ -175,15 +175,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         var transform = createOrientationTransform(image)
         transform = CGAffineTransformScale(transform, scale, scale)
         
-        let ciimage = CIImage(CGImage: image.CGImage!)
-        assert(ciimage != nil)
-        
-        let result: CIImage = ciimage!.imageByApplyingTransform(transform)!
+        let ciimage : CIImage = CIImage(CGImage: image.CGImage!)
+        let result: CIImage = ciimage.imageByApplyingTransform(transform)
     
         let context = CIContext(options:nil)
-        let cgImage = context.createCGImage(result, fromRect: result.extent())
+        let cgImage = context.createCGImage(result, fromRect: result.extent)
         
-        let scaledImage = UIImage(CGImage: cgImage)!
+        let scaledImage = UIImage(CGImage: cgImage)
         
         tileImageViews = [UIImageView]()
         
@@ -213,7 +211,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //                println("tile image size: \(rect.width), \(rect.height)")
                 
                 let img = CGImageCreateWithImageInRect(scaledImage.CGImage, rect)
-                let tileView = UIImageView(image: UIImage(CGImage:img))
+                let tileView = UIImageView(image: UIImage(CGImage:img!))
+                
                 tileView.layer.cornerRadius = tilewidth / 8.0
                 //                tileView.clipsToBounds = true
                 self.tileImageViews.append(tileView)
@@ -235,7 +234,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         for tile in board.tiles
         {
-            var ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
+            let ptb = PuzzleTileButton(tile: tile, frame:tileRect(tile.position))
             
 //            let rect = tileRect(tile.position)
 //            println("puzzle tile button size: \(rect.width), \(rect.height)")
@@ -304,7 +303,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         if(self.isShuffled && board.isSolved())
         {
-            var controller: UIAlertController? = UIAlertController(title: "Congratulations!",
+            let controller: UIAlertController? = UIAlertController(title: "Congratulations!",
                 message: "You win!",
                 preferredStyle: .Alert)
             
@@ -323,7 +322,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         for  movement in movements
         {
             let button = buttonAt(movement.start)!
-            UIView.animateWithDuration(speed, delay: delay, options: UIViewAnimationOptions.allZeros, animations: { button.frame = self.tileRect(movement.end); }, completion: nil)
+            UIView.animateWithDuration(speed, delay: delay, options: UIViewAnimationOptions(), animations: { button.frame = self.tileRect(movement.end); }, completion: nil)
             board.move(movement)
         }
     }
@@ -342,7 +341,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             let speed = speedlist[i / 10]
             if(i % 2 == 0)
             {
-                var row = random() % board.rows + 1
+                let row = random() % board.rows + 1
                 if(row != board.emptySquare.row)
                 {
                     self.moveTile(board.tileAt(TilePosition(row: row, column: board.emptySquare.column))!, speed: speed, delay: delay)
@@ -350,7 +349,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
             else
             {
-                var col = random() % board.columns + 1
+                let col = random() % board.columns + 1
                 if(col != board.emptySquare.column)
                 {
                     self.moveTile(board.tileAt(TilePosition(row: board.emptySquare.row, column: col))!, speed: speed, delay: delay)
@@ -401,7 +400,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 
     func imagePickerController(picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [NSObject : AnyObject])
+        didFinishPickingMediaWithInfo info: [String : AnyObject])
     {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             self.image = pickedImage
