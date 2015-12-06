@@ -213,7 +213,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 let img = CGImageCreateWithImageInRect(scaledImage.CGImage, rect)
                 let tileView = UIImageView(image: UIImage(CGImage:img!))
                 
-                tileView.layer.cornerRadius = tilewidth / 8.0
+                // tileView.layer.cornerRadius = tilewidth / 8.0
                 //                tileView.clipsToBounds = true
                 self.tileImageViews.append(tileView)
                 
